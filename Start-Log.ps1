@@ -39,6 +39,10 @@ Function Start-Log {
     Author:         Luca Sturlese
     Creation Date:  12/09/15
     Purpose/Change: Added -ToScreen parameter which will display content to screen as well as write to the log file.
+    Author:         Chris Taylor
+    Creation Date:  7/16/2016
+    Purpose/Change: Added -Append parameter which will not delete the log if already create. Creates log directory if doen't exist.
+                    Piped log creation to Out-Null to remove screen output.
   .LINK
     http://9to5IT.com/powershell-logging-v2-easily-create-log-files
   .EXAMPLE
@@ -53,19 +57,26 @@ Function Start-Log {
     [Parameter(Mandatory=$true,Position=0)][string]$LogPath,
     [Parameter(Mandatory=$true,Position=1)][string]$LogName,
     [Parameter(Mandatory=$true,Position=2)][string]$ScriptVersion,
-    [Parameter(Mandatory=$false,Position=3)][switch]$ToScreen
+    [Parameter(Mandatory=$false,Position=3)][switch]$ToScreen,
+    [Parameter(Mandatory=$false,Position=4)][switch]$Append
   )
 
   Process {
     $sFullPath = Join-Path -Path $LogPath -ChildPath $LogName
 
+    #Check if directory exists and create if not
+    If (-not (Test-Path -Path $LogPath)) {
+      New-Item -ItemType Directory -Force -Path $LogPath | Out-Null
+    }
+
+
     #Check if file exists and delete if it does
-    If ( (Test-Path -Path $sFullPath) ) {
+    If ((Test-Path -Path $sFullPath) -and $Append -eq $false ) {
       Remove-Item -Path $sFullPath -Force
     }
 
     #Create file and start logging
-    New-Item -Path $sFullPath –ItemType File
+    New-Item -Path $sFullPath –ItemType File | Out-Null
 
     Add-Content -Path $sFullPath -Value "***************************************************************************************************"
     Add-Content -Path $sFullPath -Value "Started processing at [$([DateTime]::Now)]."
