@@ -58,29 +58,32 @@ Function Stop-Log {
   Param (
     [Parameter(Mandatory=$true,Position=0)][string]$LogPath,
     [Parameter(Mandatory=$false,Position=1)][switch]$NoExit,
-    [Parameter(Mandatory=$false,Position=2)][switch]$ToScreen
+    [Parameter(Mandatory=$false,Position=2)][switch]$ToScreen,
+    [Parameter(Mandatory=$false,Position=3][string]$Status = 'Success'
   )
 
   Process {
     Add-Content -Path $LogPath -Value ""
     Add-Content -Path $LogPath -Value "***************************************************************************************************"
-    Add-Content -Path $LogPath -Value "Finished processing at [$([DateTime]::Now)]."
+    Add-Content -Path $LogPath -Value "Finished processing at [$([DateTime]::Now)]. Status: $Status"
     Add-Content -Path $LogPath -Value "***************************************************************************************************"
 
     #Write to screen for debug mode
     Write-Debug ""
     Write-Debug "***************************************************************************************************"
-    Write-Debug "Finished processing at [$([DateTime]::Now)]."
+    Write-Debug "Finished processing at [$([DateTime]::Now)]. Status: $Status"
     Write-Debug "***************************************************************************************************"
 
     #Write to scren for ToScreen mode
     If ( $ToScreen -eq $True ) {
       Write-Output ""
       Write-Output "***************************************************************************************************"
-      Write-Output "Finished processing at [$([DateTime]::Now)]."
+      Write-Output "Finished processing at [$([DateTime]::Now)]. Status: $Status"
       Write-Output "***************************************************************************************************"
     }
-
+    
+    $sLogCreated = 0
+    
     #Exit calling script if NoExit has not been specified or is set to False
     If( !($NoExit) -or ($NoExit -eq $False) ){
       Exit
