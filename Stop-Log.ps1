@@ -59,7 +59,7 @@ Function Stop-Log {
     [Parameter(Mandatory=$true,Position=0)][string]$LogPath,
     [Parameter(Mandatory=$false,Position=1)][switch]$NoExit,
     [Parameter(Mandatory=$false,Position=2)][switch]$ToScreen,
-    [Parameter(Mandatory=$false,Position=3)][string]$Status = 'Success'
+    [Parameter(Mandatory=$true,Position=3)][string]$Status
   )
 
   Process {
