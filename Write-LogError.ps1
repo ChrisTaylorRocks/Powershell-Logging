@@ -82,7 +82,7 @@ Function Write-LogError {
 
     #Add TimeStamp to message if specified
     If ( $TimeStamp -eq $True ) {
-      $Message = "[$([DateTime]::Now)]$Message"
+      $Message = "[$([DateTime]::Now)]: $Message"
     }
 
     #Write Content to Log
