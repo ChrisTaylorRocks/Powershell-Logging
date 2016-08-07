@@ -78,20 +78,23 @@ Function Write-LogError {
   )
 
   Process {
+    $Message = "ERROR: $Message"
+
     #Add TimeStamp to message if specified
     If ( $TimeStamp -eq $True ) {
-      $Message = "$Message  [$([DateTime]::Now)]"
+      $Message = "[$([DateTime]::Now)]$Message"
     }
 
     #Write Content to Log
-    Add-Content -Path $LogPath -Value "ERROR: $Message"
+    Add-Content -Path $LogPath -Value $Message
 
     #Write to screen for debug mode
-    Write-Debug "ERROR: $Message"
+    Write-Debug $Message
 
     #Write to scren for ToScreen mode
-    If ( $ToScreen -eq $True ) {
-      Write-Output "ERROR: $Message"
+    If ( $ToScreen -eq $True ) {   
+      #Write-Output $Message
+      Write-Host -ForegroundColor Red $Message
     }
 
     #If $ExitGracefully = True then run Log-Finish and exit script

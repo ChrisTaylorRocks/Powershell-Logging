@@ -55,8 +55,8 @@ Function Send-Log {
       $sBody = ( Get-Content $LogPath | Out-String )
 
       #Create SMTP object and send email
-      $oSmtp = new-object Net.Mail.SmtpClient( $SMTPServer )
-      $oSmtp.Send( $EmailFrom, $EmailTo, $EmailSubject, $sBody )
+      $oSmtp = new-object Net.Mail.SmtpClient($SMTPServer)
+      $oSmtp.Send($EmailFrom,$EmailTo,$EmailSubject,$sBody)
       Exit 0
     }
 
