@@ -48,20 +48,23 @@ Function Write-LogWarning {
   )
 
   Process {
+
+    $Message = "WARNING: $Message"
+
     #Add TimeStamp to message if specified
     If ( $TimeStamp -eq $True ) {
       $Message = "[$([DateTime]::Now)]: $Message"
     }
 
     #Write Content to Log
-    Add-Content -Path $LogPath -Value "WARNING: $Message"
+    Add-Content -Path $LogPath -Value "$Message"
 
     #Write to screen for debug mode
-    Write-Debug "WARNING: $Message"
+    Write-Debug "$Message"
 
     #Write to scren for ToScreen mode
     If ( $ToScreen -eq $True ) {
-      Write-Warning "$Message"
+      Write-Host -ForegroundColor Yellow "$Message"
     }
   }
 }
