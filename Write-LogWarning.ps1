@@ -61,7 +61,7 @@ Function Write-LogWarning {
 
     #Write to scren for ToScreen mode
     If ( $ToScreen -eq $True ) {
-      Write-Output "WARNING: $Message"
+      Write-Warning "$Message"
     }
   }
 }
