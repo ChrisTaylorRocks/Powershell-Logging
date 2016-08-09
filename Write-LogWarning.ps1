@@ -50,7 +50,7 @@ Function Write-LogWarning {
   Process {
     #Add TimeStamp to message if specified
     If ( $TimeStamp -eq $True ) {
-      $Message = "$Message  [$([DateTime]::Now)]"
+      $Message = "[$([DateTime]::Now)]: $Message"
     }
 
     #Write Content to Log
