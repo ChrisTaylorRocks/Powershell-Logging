@@ -54,39 +54,39 @@
   [CmdletBinding()]
 
   Param (
-    [Parameter(Mandatory=$true,Position=0)][string]$Path,
+    [Parameter(Mandatory=$true,Position=0)][string]$LogPath,
     [Parameter(Mandatory=$true,Position=2)][string]$ScriptVersion,
     [Parameter(Mandatory=$false,Position=3)][switch]$ToScreen,
     [Parameter(Mandatory=$false,Position=4)][switch]$Append
   )
 
   Process {
-    $LogPath = Split-Path -Parent $Path
+    $Path = Split-Path -Parent $LogPath
 
     #Check if directory exists and create if not
-    If (-not (Test-Path -Path $LogPath)) {
-      New-Item -ItemType Directory -Force -Path $LogPath | Out-Null
+    If (-not (Test-Path -Path $Path)) {
+      New-Item -ItemType Directory -Force -Path $Path | Out-Null
     }
 
 
     #Check if file exists and delete if it does
-    If ((Test-Path -Path $Path) -and $Append -eq $false ) {
-      Remove-Item -Path $Path -Force
+    If ((Test-Path -Path $LogPath) -and $Append -eq $false ) {
+      Remove-Item -Path $LogPath -Force
     }
 
     #Create file and start logging
-    New-Item -Path $Path -ItemType File | Out-Null
+    New-Item -Path $LogPath -ItemType File | Out-Null
     
     $sLogCreated = 1
 
-    Add-Content -Path $Path -Value "***************************************************************************************************"
-    Add-Content -Path $Path -Value "Started processing at [$([DateTime]::Now)]."
-    Add-Content -Path $Path -Value "***************************************************************************************************"
-    Add-Content -Path $Path -Value ""
-    Add-Content -Path $Path -Value "Running script version [$ScriptVersion]."
-    Add-Content -Path $Path -Value ""
-    Add-Content -Path $Path -Value "***************************************************************************************************"
-    Add-Content -Path $Path -Value ""
+    Add-Content -Path $LogPath -Value "***************************************************************************************************"
+    Add-Content -Path $LogPath -Value "Started processing at [$([DateTime]::Now)]."
+    Add-Content -Path $LogPath -Value "***************************************************************************************************"
+    Add-Content -Path $LogPath -Value ""
+    Add-Content -Path $LogPath -Value "Running script version [$ScriptVersion]."
+    Add-Content -Path $LogPath -Value ""
+    Add-Content -Path $LogPath -Value "***************************************************************************************************"
+    Add-Content -Path $LogPath -Value ""
 
     #Write to screen for debug mode
     Write-Debug "***************************************************************************************************"
