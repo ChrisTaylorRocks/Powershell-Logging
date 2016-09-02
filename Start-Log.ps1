@@ -43,10 +43,13 @@
     Creation Date:  7/16/2016
     Purpose/Change: Added -Append parameter which will not delete the log if already create. Creates log directory if doen't exist.
                     Piped log creation to Out-Null to remove screen output.
+    Author:         Chris Taylor
+    Creation Date:  9/2/2016
+    Purpose/Change: Added verbose output option.
   .LINK
     http://9to5IT.com/powershell-logging-v2-easily-create-log-files
   .EXAMPLE
-    Start-Log -LogPath "C:\Windows\Temp" -LogName "Test_Script.log" -ScriptVersion "1.5"
+    Start-Log -LogPath "C:\Windows\Temp\Test_Script.log" -ScriptVersion "1.5" -Append
     Creates a new log file with the file path of C:\Windows\Temp\Test_Script.log. Initialises the log file with
     the date and time the log was created (or the calling script started executing) and the calling script's version.
   #>
@@ -97,6 +100,17 @@
     Write-Debug ""
     Write-Debug "***************************************************************************************************"
     Write-Debug ""
+
+    #Write to screen for Verbose mode
+    Write-Verbose "***************************************************************************************************"
+    Write-Verbose "Started processing at [$([DateTime]::Now)]."
+    Write-Verbose "***************************************************************************************************"
+    Write-Verbose ""
+    Write-Verbose "Running script version [$ScriptVersion]."
+    Write-Verbose ""
+    Write-Verbose "***************************************************************************************************"
+    Write-Verbose ""
+
 
     #Write to scren for ToScreen mode
     If ( $ToScreen -eq $True ) {

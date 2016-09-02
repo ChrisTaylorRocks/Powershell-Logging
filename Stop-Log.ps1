@@ -40,6 +40,10 @@ Function Stop-Log {
     Author:         Luca Sturlese
     Creation Date:  12/09/15
     Purpose/Change: Added -ToScreen parameter which will display content to screen as well as write to the log file.
+    Author:         Chris Taylor
+    Creation Date:  9/2/2016
+    Purpose/Change: Added verbose output option.
+
   .LINK
     http://9to5IT.com/powershell-logging-v2-easily-create-log-files
   .EXAMPLE
@@ -73,6 +77,13 @@ Function Stop-Log {
     Write-Debug "***************************************************************************************************"
     Write-Debug "Finished processing at [$([DateTime]::Now)]. Status: $Status"
     Write-Debug "***************************************************************************************************"
+
+    #Write to screen for Verbose mode
+    Write-Verbose ""
+    Write-Verbose "***************************************************************************************************"
+    Write-Verbose "Finished processing at [$([DateTime]::Now)]. Status: $Status"
+    Write-Verbose "***************************************************************************************************"
+
 
     #Write to scren for ToScreen mode
     If ( $ToScreen -eq $True ) {

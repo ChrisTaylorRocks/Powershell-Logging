@@ -31,6 +31,10 @@ Function Send-Log {
     Author:         Luca Sturlese
     Creation Date:  02/09/15
     Purpose/Change: Added SMTPServer parameter to pass SMTP server as oppposed to having to set it in the function manually.
+    Author:         Chris Taylor
+    Creation Date:  9/2/2016
+    Purpose/Change: Added verbose output option.
+
   .LINK
     http://9to5IT.com/powershell-logging-v2-easily-create-log-files
   .EXAMPLE
@@ -57,6 +61,11 @@ Function Send-Log {
       #Create SMTP object and send email
       $oSmtp = new-object Net.Mail.SmtpClient($SMTPServer)
       $oSmtp.Send($EmailFrom,$EmailTo,$EmailSubject,$sBody)
+      Write-Verbose "Server: $SMTPServer"
+      Write-Verbose "From: $EmailFrom"
+      Write-Verbose "To: $EmailTo"
+      Write-Verbose "Subject: $EmailSubject"
+      Write-Verbose "Body: $sBody"
       Exit 0
     }
 
