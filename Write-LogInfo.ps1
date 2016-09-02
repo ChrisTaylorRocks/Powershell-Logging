@@ -43,6 +43,10 @@ Function Write-LogInfo {
     Author:         Luca Sturlese
     Creation Date:  12/09/15
     Purpose/Change: Added -ToScreen parameter which will display content to screen as well as write to the log file.
+    Author:         Chris Taylor
+    Creation Date:  9/2/2016
+    Purpose/Change: Added verbose output option.
+
   .LINK
     http://9to5IT.com/powershell-logging-v2-easily-create-log-files
   .EXAMPLE
@@ -70,6 +74,9 @@ Function Write-LogInfo {
 
     #Write to screen for debug mode
     Write-Debug $Message
+
+    #Write to screen for Verbose mode
+    Write-Verbose $Message
 
     #Write to scren for ToScreen mode
     If ( $ToScreen -eq $True ) {
