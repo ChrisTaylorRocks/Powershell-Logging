@@ -78,7 +78,7 @@
     }
 
     #Create file and start logging
-    New-Item -Path $LogPath -ItemType File | Out-Null
+    New-Item -Path $LogPath -ItemType File -Force | Out-Null
     
     $sLogCreated = 1
 
