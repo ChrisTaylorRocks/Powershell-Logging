@@ -70,7 +70,7 @@ Function Write-LogInfo {
     }
 
     #Write Content to Log
-    Add-Content -Path $LogPath -Value $Message
+    Add-Content -Force -Path $LogPath -Value $Message 
 
     #Write to screen for debug mode
     Write-Debug $Message
