@@ -67,10 +67,10 @@ Function Stop-Log {
   )
 
   Process {
-    Add-Content -Path $LogPath -Value ""
-    Add-Content -Path $LogPath -Value "***************************************************************************************************"
-    Add-Content -Path $LogPath -Value "Finished processing at [$([DateTime]::Now)]. Status: $Status"
-    Add-Content -Path $LogPath -Value "***************************************************************************************************"
+    Add-Content -Force -Path $LogPath -Value ""
+    Add-Content -Force -Path $LogPath -Value "***************************************************************************************************"
+    Add-Content -Force -Path $LogPath -Value "Finished processing at [$([DateTime]::Now)]. Status: $Status"
+    Add-Content -Force -Path $LogPath -Value "***************************************************************************************************"
 
     #Write to screen for debug mode
     Write-Debug ""
