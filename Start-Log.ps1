@@ -73,7 +73,7 @@
 
 
     #Check if file exists and delete if it does
-    If ((Test-Path -Path $LogPath) -and $Append -eq $false ) {
+    If ((Test-Path -Path $LogPath) -and $Append -ne $true) {
       Remove-Item -Path $LogPath -Force
     }
 
