@@ -71,7 +71,7 @@ Function Start-Log {
       New-Item -ItemType Directory -Force -Path $Path | Out-Null
     }
 
-       #Check if file exists and delete if it does
+    #Check if file exists and delete if it does
     If ((Test-Path -Path $LogPath) -eq $true -and $Append -eq $false){
         Remove-Item -Path $LogPath -Force
     }
