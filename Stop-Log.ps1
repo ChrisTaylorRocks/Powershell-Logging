@@ -71,6 +71,7 @@ Function Stop-Log {
     Add-Content -Force -Path $LogPath -Value "***************************************************************************************************"
     Add-Content -Force -Path $LogPath -Value "Finished processing at [$([DateTime]::Now)] $(New-TimeSpan -Start $Script:ScriptStartTime -End $(Get-Date)) Status: $Status"
     Add-Content -Force -Path $LogPath -Value "***************************************************************************************************"
+    Add-Content -Force -Path $LogPath -Value "___________________________________________________________________________________________________"
 
     #Write to screen for debug mode
     Write-Debug ""
