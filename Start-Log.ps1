@@ -75,9 +75,10 @@ Function Start-Log {
     If ((Test-Path -Path $LogPath) -eq $true -and $Append -eq $false){
         Remove-Item -Path $LogPath -Force
     }
-    
-    #Create file and start logging
-    $null = Out-File $LogPath -Encoding "UTF8"    
+    If (-not (Test-Path -Path $LogPath)){
+        #Create file and start logging
+        $null = Out-File $LogPath -Encoding "UTF8" -Force
+    }    
 
     $sLogCreated = 1
 
