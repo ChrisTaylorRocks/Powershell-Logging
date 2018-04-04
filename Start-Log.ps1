@@ -1,4 +1,4 @@
-﻿Function Start-Log {
+Function Start-Log {
   <#
   .SYNOPSIS
     Creates a new log file
@@ -80,7 +80,7 @@
     }
     else{
         #Create file and start logging
-        New-Item -Path $LogPath -ItemType File -Force | Out-Null
+        Out-File $LogPath -Force | Out-Null
     }
     $sLogCreated = 1
 
