@@ -73,7 +73,7 @@ Function Start-Log {
 
 
     #Check if file exists and delete if it does
-    If (Test-Path -Path $LogPath -and $Append -ne $true){
+    If (Test-Path -Path $LogPath -and $Append -eq $true){
         Remove-Item -Path $LogPath -Force
     }
     else{
