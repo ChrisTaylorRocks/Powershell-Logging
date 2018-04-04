@@ -77,8 +77,7 @@ Function Start-Log {
     }
     
     #Create file and start logging
-    $null = Out-File $LogPath -Encoding "UTF8" -Force
-    
+    $null = Out-File $LogPath -Encoding "UTF8"    
 
     $sLogCreated = 1
 
