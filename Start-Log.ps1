@@ -73,15 +73,14 @@ Function Start-Log {
 
 
     #Check if file exists and delete if it does
-    If (Test-Path -Path $LogPath){
-        if($Append -ne $true) {
-            Remove-Item -Path $LogPath -Force
-        }
+    If (Test-Path -Path $LogPath -and $Append -ne $true){
+        Remove-Item -Path $LogPath -Force
     }
     else{
         #Create file and start logging
         Out-File $LogPath -Encoding "UTF8" -Force | Out-Null
     }
+
     $sLogCreated = 1
 
     Add-Content -Path $LogPath -Value "***************************************************************************************************"
