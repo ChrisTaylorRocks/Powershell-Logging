@@ -80,7 +80,7 @@ Function Start-Log {
     }
     else{
         #Create file and start logging
-        Out-File $LogPath -Force | Out-Null
+        Out-File $LogPath -Encoding "UTF8" -Force | Out-Null
     }
     $sLogCreated = 1
 
