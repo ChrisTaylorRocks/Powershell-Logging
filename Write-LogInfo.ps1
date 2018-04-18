@@ -43,12 +43,18 @@ Function Write-LogInfo {
     Author:         Luca Sturlese
     Creation Date:  12/09/15
     Purpose/Change: Added -ToScreen parameter which will display content to screen as well as write to the log file.
+    Version:        1.6
     Author:         Chris Taylor
     Creation Date:  9/2/2016
     Purpose/Change: Added verbose output option.
+    Version:        1.7
+    Author:         Chris Taylor
+    Creation Date:  4/18/2018
+    Purpose/Change: Added support for Set-LogSettings
+    
 
   .LINK
-    http://9to5IT.com/powershell-logging-v2-easily-create-log-files
+    christaylor.rocks
   .EXAMPLE
     Write-LogInfo -LogPath "C:\Windows\Temp\Test_Script.log" -Message "This is a new line which I am appending to the end of the log file."
     Writes a new informational log message to a new line in the specified log file.
@@ -57,13 +63,20 @@ Function Write-LogInfo {
   [CmdletBinding()]
 
   Param (
-    [Parameter(Mandatory=$true,Position=0)][string]$LogPath,
+    [Parameter(Position=0)][string]$LogPath,
     [Parameter(Mandatory=$true,Position=1,ValueFromPipeline=$true)][string]$Message,
     [Parameter(Mandatory=$false,Position=2)][switch]$TimeStamp,
     [Parameter(Mandatory=$false,Position=3)][switch]$ToScreen
   )
 
   Process {
+    if (!$LogPath) {
+        if(!$script:PSLogSettings.LogPath) {
+            Write-Error "No log path has been provided and one has not been set with, 'Set-LogSettings'"
+            break
+        }
+        $LogPath = $script:PSLogSettings.LogPath
+    }
     #Add TimeStamp to message if specified
     If ( $TimeStamp -eq $True ) {
       $Message = "[$([DateTime]::Now)]: $Message"
