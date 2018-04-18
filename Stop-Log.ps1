@@ -79,22 +79,22 @@ Function Stop-Log {
         }
         $LogPath = $script:PSLogSettings.LogPath
     }
-
+    $TimeSpan = New-TimeSpan -Start $Script:PSLogSettings.ScriptStartTime -End $(Get-Date)
     Add-Content -Force -Path $LogPath -Value ""
     Add-Content -Force -Path $LogPath -Value "***************************************************************************************************"
-    Add-Content -Force -Path $LogPath -Value "Finished processing at [$([DateTime]::Now)] $(New-TimeSpan -Start $Script:ScriptStartTime -End $(Get-Date)) Status: $Status"
+    Add-Content -Force -Path $LogPath -Value "Finished processing at [$([DateTime]::Now)] $($TimeSpan) Status: $Status"
     Add-Content -Force -Path $LogPath -Value "***************************************************************************************************"
 
     #Write to screen for debug mode
     Write-Debug ""
     Write-Debug "***************************************************************************************************"
-    Write-Debug "Finished processing at [$([DateTime]::Now)] $(New-TimeSpan -Start $Script:ScriptStartTime -End $(Get-Date)) Status: $Status"
+    Write-Debug "Finished processing at [$([DateTime]::Now)] $($TimeSpan) Status: $Status"
     Write-Debug "***************************************************************************************************"
 
     #Write to screen for Verbose mode
     Write-Verbose ""
     Write-Verbose "***************************************************************************************************"
-    Write-Verbose "Finished processing at [$([DateTime]::Now)] $(New-TimeSpan -Start $Script:ScriptStartTime -End $(Get-Date)) Status: $Status"
+    Write-Verbose "Finished processing at [$([DateTime]::Now)] $($TimeSpan) Status: $Status"
     Write-Verbose "***************************************************************************************************"
 
 
@@ -102,7 +102,7 @@ Function Stop-Log {
     If ( $ToScreen -eq $True ) {
       Write-Output ""
       Write-Output "***************************************************************************************************"
-      Write-Output "Finished processing at [$([DateTime]::Now)] $(New-TimeSpan -Start $Script:ScriptStartTime -End $(Get-Date)) Status: $Status"
+      Write-Output "Finished processing at [$([DateTime]::Now)] $($TimeSpan) -End $(Get-Date)) Status: $Status"
       Write-Output "***************************************************************************************************"
     }
     
