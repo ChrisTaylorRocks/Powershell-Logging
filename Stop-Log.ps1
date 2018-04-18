@@ -40,9 +40,14 @@ Function Stop-Log {
     Author:         Luca Sturlese
     Creation Date:  12/09/15
     Purpose/Change: Added -ToScreen parameter which will display content to screen as well as write to the log file.
+    Version:        1.6
     Author:         Chris Taylor
     Creation Date:  9/2/2016
     Purpose/Change: Added verbose output option.
+    Version:        1.7
+    Author:         Chris Taylor
+    Creation Date:  4/18/2018
+    Purpose/Change: Added support for Set-LogSettings
 
   .LINK
     http://9to5IT.com/powershell-logging-v2-easily-create-log-files
@@ -60,18 +65,25 @@ Function Stop-Log {
   [CmdletBinding()]
 
   Param (
-    [Parameter(Mandatory=$true,Position=0)][string]$LogPath,
+    [Parameter(Mandatory=$false,Position=0)][string]$LogPath,
     [Parameter(Mandatory=$false,Position=1)][switch]$NoExit,
     [Parameter(Mandatory=$false,Position=2)][switch]$ToScreen,
     [Parameter(Mandatory=$true,Position=3)][string]$Status
   )
 
   Process {
+    if (!$LogPath) {
+        if(!$script:PSLogSettings.LogPath) {
+            Write-Error "No log path has been provided and one has not been set with, 'Set-LogSettings'"
+            break
+        }
+        $LogPath = $script:PSLogSettings.LogPath
+    }
+
     Add-Content -Force -Path $LogPath -Value ""
     Add-Content -Force -Path $LogPath -Value "***************************************************************************************************"
     Add-Content -Force -Path $LogPath -Value "Finished processing at [$([DateTime]::Now)] $(New-TimeSpan -Start $Script:ScriptStartTime -End $(Get-Date)) Status: $Status"
     Add-Content -Force -Path $LogPath -Value "***************************************************************************************************"
-    Add-Content -Force -Path $LogPath -Value "___________________________________________________________________________________________________"
 
     #Write to screen for debug mode
     Write-Debug ""
