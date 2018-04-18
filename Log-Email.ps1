@@ -31,9 +31,14 @@ Function Send-Log {
     Author:         Luca Sturlese
     Creation Date:  02/09/15
     Purpose/Change: Added SMTPServer parameter to pass SMTP server as oppposed to having to set it in the function manually.
+    Version:        1.3
     Author:         Chris Taylor
     Creation Date:  9/2/2016
     Purpose/Change: Added verbose output option.
+    Version:        1.4
+    Author:         Chris Taylor
+    Creation Date:  4/18/2018
+    Purpose/Change: Added support for Set-LogSettings
 
   .LINK
     http://9to5IT.com/powershell-logging-v2-easily-create-log-files
@@ -47,26 +52,62 @@ Function Send-Log {
   [CmdletBinding()]
 
   Param (
-    [Parameter(Mandatory=$true,Position=0)][string]$SMTPServer,
-    [Parameter(Mandatory=$true,Position=1)][string]$LogPath,
-    [Parameter(Mandatory=$true,Position=2)][string]$EmailFrom,
-    [Parameter(Mandatory=$true,Position=3)][string]$EmailTo,
-    [Parameter(Mandatory=$true,Position=4)][string]$EmailSubject
+    [Parameter(Position=0)][string]$SMTPServer,
+    [Parameter(Position=1)][string]$LogPath,
+    [Parameter(Position=2)][string]$EmailFrom,
+    [Parameter(Position=3)][string]$EmailTo,
+    [Parameter(Position=4)][string]$EmailSubject
   )
 
   Process {
     Try {
-      $sBody = ( Get-Content $LogPath | Out-String )
+        if (!$LogPath) {
+            if(!$script:PSLogSettings.LogPath) {
+                Write-Error "No log path has been provided and one has not been set with, 'Set-LogSettings'"
+                break
+            }
+            $LogPath = $script:PSLogSettings.LogPath
+        }
+        if (!$SMTPServer) {
+            if(!$script:PSLogSettings.SMTPServer) {
+                Write-Error "No SMTPServer has been provided and one has not been set with, 'Set-LogSettings'"
+                break
+            }
+            $SMTPServer = $script:PSLogSettings.SMTPServer
+        }
+        if (!$EmailFrom) {
+            if(!$script:PSLogSettings.EmailFrom) {
+                Write-Error "No EmailFrom has been provided and one has not been set with, 'Set-LogSettings'"
+                break
+            }
+            $EmailFrom = $script:PSLogSettings.EmailFrom
+        }
+        if (!$EmailTo) {
+            if(!$script:PSLogSettings.EmailTo) {
+                Write-Error "No EmailTo has been provided and one has not been set with, 'Set-LogSettings'"
+                break
+            }
+            $EmailTo = $script:PSLogSettings.EmailTo
+        }
+        if (!$EmailSubject) {
+            if(!$script:PSLogSettings.EmailSubject) {
+                Write-Error "No EmailSubject has been provided and one has not been set with, 'Set-LogSettings'"
+                break
+            }
+            $EmailSubject = $script:PSLogSettings.EmailSubject
+        }
 
-      #Create SMTP object and send email
-      $oSmtp = new-object Net.Mail.SmtpClient($SMTPServer)
-      $oSmtp.Send($EmailFrom,$EmailTo,$EmailSubject,$sBody)
-      Write-Verbose "Server: $SMTPServer"
-      Write-Verbose "From: $EmailFrom"
-      Write-Verbose "To: $EmailTo"
-      Write-Verbose "Subject: $EmailSubject"
-      Write-Verbose "Body: $sBody"
-      Exit 0
+        $sBody = ( Get-Content $LogPath | Out-String )
+
+        #Create SMTP object and send email
+        $oSmtp = new-object Net.Mail.SmtpClient($SMTPServer)
+        $oSmtp.Send($EmailFrom,$EmailTo,$EmailSubject,$sBody)
+        Write-Verbose "Server: $SMTPServer"
+        Write-Verbose "From: $EmailFrom"
+        Write-Verbose "To: $EmailTo"
+        Write-Verbose "Subject: $EmailSubject"
+        Write-Verbose "Body: $sBody"
+        Exit 0
     }
 
     Catch {
