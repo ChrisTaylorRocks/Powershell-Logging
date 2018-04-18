@@ -16,6 +16,9 @@ Function Write-LogError {
   .PARAMETER ToScreen
     Optional. When parameter specified will display the content to screen as well as write to log file. This provides an additional
     another option to write content to screen as opposed to using debug mode.
+  .PARAMETER Email
+    Optional. If parameter specified and ExitGracefully set it will email the log.
+
   .INPUTS
     Parameters above
   .OUTPUTS
@@ -53,6 +56,10 @@ Function Write-LogError {
     Author:         Luca Sturlese
     Creation Date:  12/09/15
     Purpose/Change: Added -ToScreen parameter which will display content to screen as well as write to the log file.
+    Version:        1.8
+    Author:         Chris Taylor
+    Creation Date:  4/18/2018
+    Purpose/Change: Added support for Set-LogSettings and -Email
   .LINK
     http://9to5IT.com/powershell-logging-v2-easily-create-log-files
   .EXAMPLE
@@ -70,14 +77,24 @@ Function Write-LogError {
   [CmdletBinding()]
 
   Param (
-    [Parameter(Mandatory=$true,Position=0)][string]$LogPath,
+    [Parameter(Position=0)][string]$LogPath,
     [Parameter(Mandatory=$true,Position=1,ValueFromPipeline=$true)][string]$Message,
     [Parameter(Mandatory=$false,Position=3)][switch]$TimeStamp,
     [Parameter(Mandatory=$false,Position=4)][switch]$ExitGracefully,
-    [Parameter(Mandatory=$false,Position=5)][switch]$ToScreen
+    [Parameter(Mandatory=$false,Position=5)][switch]$ToScreen,
+    [Parameter(Mandatory=$false,Position=5)][switch]$Email    
   )
 
   Process {
+
+    if (!$LogPath) {
+        if(!$script:PSLogSettings.LogPath) {
+            Write-Error "No log path has been provided and one has not been set with, 'Set-LogSettings'"
+            break
+        }
+        $LogPath = $script:PSLogSettings.LogPath
+    }
+
     $Message = "ERROR: $Message"
 
     #Add TimeStamp to message if specified
@@ -101,6 +118,9 @@ Function Write-LogError {
     If ( $ExitGracefully -eq $True ){
       Add-Content -Path $LogPath -Value " "
       Stop-Log -LogPath $LogPath -Status 'Failed'
+      If ($Email) {
+        Send-Log  
+      }
       Break
     }
   }
