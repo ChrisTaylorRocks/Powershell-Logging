@@ -39,13 +39,20 @@ Function Start-Log {
     Author:         Luca Sturlese
     Creation Date:  12/09/15
     Purpose/Change: Added -ToScreen parameter which will display content to screen as well as write to the log file.
+    Version:        1.5
     Author:         Chris Taylor
     Creation Date:  7/16/2016
     Purpose/Change: Added -Append parameter which will not delete the log if already create. Creates log directory if doen't exist.
                     Piped log creation to Out-Null to remove screen output.
+    Version:        1.6
     Author:         Chris Taylor
     Creation Date:  9/2/2016
     Purpose/Change: Added verbose output option.
+    Version:        1.7
+    Author:         Chris Taylor
+    Creation Date:  4/18/2018
+    Purpose/Change: Added support for Set-LogSettings
+
   .LINK
     http://9to5IT.com/powershell-logging-v2-easily-create-log-files
   .EXAMPLE
@@ -57,13 +64,21 @@ Function Start-Log {
   [CmdletBinding()]
 
   Param (
-    [Parameter(Mandatory=$true,Position=0)][string]$LogPath,
+    [Parameter(Mandatory=$false,Position=0)][string]$LogPath,
     [Parameter(Mandatory=$true,Position=2)][string]$ScriptVersion,
     [Parameter(Mandatory=$false,Position=3)][switch]$ToScreen,
     [Parameter(Mandatory=$false,Position=4)][switch]$Append
   )
 
   Process {
+    if (!$LogPath) {
+        if(!$script:PSLogSettings.LogPath) {
+            Write-Error "No log path has been provided and one has not been set with, 'Set-LogSettings'"
+            break
+        }
+        $LogPath = $script:PSLogSettings.LogPath
+    }
+
     $Path = Split-Path -Parent $LogPath
 
     #Check if directory exists and create if not
@@ -78,10 +93,9 @@ Function Start-Log {
     If (-not (Test-Path -Path $LogPath)){
         #Create file and start logging
         $null = Out-File $LogPath -Encoding "UTF8" -Force
-    }    
-
+    }
+    
     $sLogCreated = 1
-    $Script:ScriptStartTime = Get-Date
 
     Add-Content -Path $LogPath -Value "***************************************************************************************************"
     Add-Content -Path $LogPath -Value "Started processing at [$([DateTime]::Now)]."
