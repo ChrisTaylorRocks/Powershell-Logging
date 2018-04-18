@@ -31,6 +31,11 @@ Function Write-LogWarning {
     Author:         Luca Sturlese
     Creation Date:  12/09/15
     Purpose/Change: Added -ToScreen parameter which will display content to screen as well as write to the log file.
+    Version:        1.3
+    Author:         Chris Taylor
+    Creation Date:  4/18/2018
+    Purpose/Change: Added support for Set-LogSettings
+
   .LINK
     http://9to5IT.com/powershell-logging-v2-easily-create-log-files
   .EXAMPLE
@@ -41,13 +46,20 @@ Function Write-LogWarning {
   [CmdletBinding()]
 
   Param (
-    [Parameter(Mandatory=$true,Position=0)][string]$LogPath,
+    [Parameter(Mandatory=$false,Position=0)][string]$LogPath,
     [Parameter(Mandatory=$true,Position=1,ValueFromPipeline=$true)][string]$Message,
     [Parameter(Mandatory=$false,Position=2)][switch]$TimeStamp,
     [Parameter(Mandatory=$false,Position=3)][switch]$ToScreen
   )
 
   Process {
+    if (!$LogPath) {
+        if(!$script:PSLogSettings.LogPath) {
+            Write-Error "No log path has been provided and one has not been set with, 'Set-LogSettings'"
+            break
+        }
+        $LogPath = $script:PSLogSettings.LogPath
+    }
 
     $Message = "WARNING: $Message"
 
