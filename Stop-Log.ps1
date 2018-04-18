@@ -102,7 +102,7 @@ Function Stop-Log {
     If ( $ToScreen -eq $True ) {
       Write-Output ""
       Write-Output "***************************************************************************************************"
-      Write-Output "Finished processing at [$([DateTime]::Now)] $($TimeSpan) -End $(Get-Date)) Status: $Status"
+      Write-Output "Finished processing at [$([DateTime]::Now)] $($TimeSpan) Status: $Status"
       Write-Output "***************************************************************************************************"
     }
     
