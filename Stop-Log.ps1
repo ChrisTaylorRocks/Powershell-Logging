@@ -68,7 +68,7 @@ Function Stop-Log {
     [Parameter(Mandatory=$false,Position=0)][string]$LogPath,
     [Parameter(Mandatory=$false,Position=1)][switch]$NoExit,
     [Parameter(Mandatory=$false,Position=2)][switch]$ToScreen,
-    [Parameter(Mandatory=$true,Position=3)][string]$Status
+    [Parameter(Mandatory=$false,Position=3)][string]$Status
   )
 
   Process {
@@ -79,6 +79,14 @@ Function Stop-Log {
         }
         $LogPath = $script:PSLogSettings.LogPath
     }
+    if (!$Status) {
+        if(!$script:PSLogSettings.Status) {
+            Write-Error "No Status has been provided and one has not been set with, 'Set-LogSettings'"
+            break
+        }
+        $Status = $script:PSLogSettings.Status
+    }
+
     $TimeSpan = New-TimeSpan -Start $Script:PSLogSettings.ScriptStartTime -End $(Get-Date)
     Add-Content -Force -Path $LogPath -Value ""
     Add-Content -Force -Path $LogPath -Value "***************************************************************************************************"
