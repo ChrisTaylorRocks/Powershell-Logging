@@ -117,11 +117,11 @@ Function Write-LogError {
     #If $ExitGracefully = True then run Log-Finish and exit script
     If ( $ExitGracefully -eq $True ){
       Add-Content -Path $LogPath -Value " "
-      Stop-Log -LogPath $LogPath -Status 'Failed'
+      Stop-Log -LogPath $LogPath -Status 'Failed' -NoExit
       If ($Email) {
         Send-Log  
       }
-      Break
+      Exit 1
     }
   }
 }
