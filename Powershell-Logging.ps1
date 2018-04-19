@@ -7,3 +7,4 @@
     (new-object Net.WebClient).DownloadString("https://raw.githubusercontent.com/ChrisTaylorRocks/Powershell-Logging/master/Write-LogInfo.ps1") | iex
     (new-object Net.WebClient).DownloadString("https://raw.githubusercontent.com/ChrisTaylorRocks/Powershell-Logging/master/Write-LogWarning.ps1") | iex
     (new-object Net.WebClient).DownloadString("https://raw.githubusercontent.com/ChrisTaylorRocks/Powershell-Logging/master/Set-LogSettings.ps1") | iex
+    (new-object Net.WebClient).DownloadString("https://raw.githubusercontent.com/ChrisTaylorRocks/Powershell-Logging/master/Update-LogSettings.ps1") | iex
