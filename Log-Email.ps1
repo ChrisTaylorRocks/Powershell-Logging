@@ -62,39 +62,39 @@ Function Send-Log {
   Process {
     Try {
         if (!$LogPath) {
-            if(!$script:PSLogSettings.LogPath) {
+            if(!$global:PSLogSettings.LogPath) {
                 Write-Error "No log path has been provided and one has not been set with, 'Set-LogSettings'"
                 break
             }
-            $LogPath = $script:PSLogSettings.LogPath
+            $LogPath = $global:PSLogSettings.LogPath
         }
         if (!$SMTPServer) {
-            if(!$script:PSLogSettings.SMTPServer) {
+            if(!$global:PSLogSettings.SMTPServer) {
                 Write-Error "No SMTPServer has been provided and one has not been set with, 'Set-LogSettings'"
                 break
             }
-            $SMTPServer = $script:PSLogSettings.SMTPServer
+            $SMTPServer = $global:PSLogSettings.SMTPServer
         }
         if (!$EmailFrom) {
-            if(!$script:PSLogSettings.EmailFrom) {
+            if(!$global:PSLogSettings.EmailFrom) {
                 Write-Error "No EmailFrom has been provided and one has not been set with, 'Set-LogSettings'"
                 break
             }
-            $EmailFrom = $script:PSLogSettings.EmailFrom
+            $EmailFrom = $global:PSLogSettings.EmailFrom
         }
         if (!$EmailTo) {
-            if(!$script:PSLogSettings.EmailTo) {
+            if(!$global:PSLogSettings.EmailTo) {
                 Write-Error "No EmailTo has been provided and one has not been set with, 'Set-LogSettings'"
                 break
             }
-            $EmailTo = $script:PSLogSettings.EmailTo
+            $EmailTo = $global:PSLogSettings.EmailTo
         }
         if (!$EmailSubject) {
-            if(!$script:PSLogSettings.EmailSubject) {
+            if(!$global:PSLogSettings.EmailSubject) {
                 Write-Error "No EmailSubject has been provided and one has not been set with, 'Set-LogSettings'"
                 break
             }
-            $EmailSubject = $script:PSLogSettings.EmailSubject
+            $EmailSubject = $global:PSLogSettings.EmailSubject
         }
 
         $sBody = ( Get-Content $LogPath | Out-String )
@@ -111,6 +111,8 @@ Function Send-Log {
     }
 
     Catch {
+      Write-Error "There was an error sending the log"
+      Write-Error $Error[0]
       Exit 1
     }
   }
