@@ -96,7 +96,13 @@ Function Start-Log {
     }
     
     $sLogCreated = 1
-    $script:PSLogSettings.ScriptStartTime = $([DateTime]::Now)
+    if (!$script:PSLogSettings) {
+      $script:PSLogSettings = @{
+          ScriptStartTime = $([DateTime]::Now)
+      }
+    } else {
+      $script:PSLogSettings.ScriptStartTime = $([DateTime]::Now)
+    }
 
     Add-Content -Path $LogPath -Value "***************************************************************************************************"
     Add-Content -Path $LogPath -Value "Started processing at [$([DateTime]::Now)]."
