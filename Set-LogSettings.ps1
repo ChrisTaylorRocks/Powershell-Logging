@@ -38,19 +38,26 @@ function Set-LogSettings {
     [CmdletBinding()]
     Param (
         [string]$SMTPServer,
-        [Parameter(Mandatory=$true)][string]$LogPath,
+        [string]$LogPath,
         [string]$EmailFrom,
         [string]$EmailTo,
         [string]$EmailSubject,
         [string]$Status = 'Success'
     )
-    $script:PSLogSettings = @{
-        SMTPServer = $SMTPServer
-        LogPath = $LogPath
-        EmailFrom = $EmailFrom
-        EmailTo = $EmailTo
-        EmailSubject = $EmailSubject
-        Status = $Status
-        ScriptStartTime = $([DateTime]::Now)
+    if($script:PSLogSettings){
+        foreach($Key in $MyInvocation.BoundParameters.keys){
+            $Key
+            $script:PSLogSettings.$Key = $MyInvocation.BoundParameters[$Key]
+        }
+    } else {
+        $script:PSLogSettings = @{
+            SMTPServer = $SMTPServer
+            LogPath = $LogPath
+            EmailFrom = $EmailFrom
+            EmailTo = $EmailTo
+            EmailSubject = $EmailSubject
+            Status = $Status
+            ScriptStartTime = $([DateTime]::Now)
+        }
     }
 }
