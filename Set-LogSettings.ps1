@@ -46,7 +46,6 @@ function Set-LogSettings {
     )
     if($script:PSLogSettings){
         foreach($Key in $MyInvocation.BoundParameters.keys){
-            $Key
             $script:PSLogSettings.$Key = $MyInvocation.BoundParameters[$Key]
         }
     } else {
