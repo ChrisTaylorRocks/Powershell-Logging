@@ -3,15 +3,15 @@ function Set-LogSettings {
     .SYNOPSIS
         Saves all needed information to a script level variable so that it can be used later
     .PARAMETER SMTPServer
-        Mandatory. FQDN of the SMTP server used to send the email. Example: smtp.google.com
+        FQDN of the SMTP server used to send the email. Example: smtp.google.com
     .PARAMETER LogPath
-        Mandatory. Full path of the log file you want to email. Example: C:\Windows\Temp\Test_Script.log
+        Full path of the log file you want to email. Example: C:\Windows\Temp\Test_Script.log
     .PARAMETER EmailFrom
-        Mandatory. The email addresses of who you want to send the email from. Example: "admin@9to5IT.com"
+        The email addresses of who you want to send the email from. Example: "admin@9to5IT.com"
     .PARAMETER EmailTo
-        Mandatory. The email addresses of where to send the email to. Seperate multiple emails by ",". Example: "admin@9to5IT.com, test@test.com"
+        The email addresses of where to send the email to. Seperate multiple emails by ",". Example: "admin@9to5IT.com, test@test.com"
     .PARAMETER EmailSubject
-        Mandatory. The subject of the email you want to send. Example: "Cool Script - [" + (Get-Date).ToShortDateString() + "]"
+        The subject of the email you want to send. Example: "Cool Script - [" + (Get-Date).ToShortDateString() + "]"
     .PARAMETER Status
         Will output the status on Stop-Log
     

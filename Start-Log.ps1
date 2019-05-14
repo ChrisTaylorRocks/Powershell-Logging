@@ -77,6 +77,8 @@ Function Start-Log {
             break
         }
         $LogPath = $script:PSLogSettings.LogPath
+    } else {
+        Set-LogSettings -LogPath $LogPath
     }
 
     $Path = Split-Path -Parent $LogPath
